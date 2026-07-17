@@ -13,6 +13,7 @@ import sys
 import json
 import copy
 import src.schema as S
+from src.schema import SCHEMA_VERSION
 from src.grader import grade, GoldParseError
 
 # --- make `import schema` / `import grader` work no matter where we're invoked ---
@@ -49,7 +50,7 @@ def test_pregrading_row_is_valid():
     assert r["parse_ok"] is None
     assert r["correct"] is None
     assert r["parsed_answer"] is None
-    assert r["schema_version"] == "1.1"
+    assert r["schema_version"] == SCHEMA_VERSION
     S.validate_row(r)  # must not raise
 
 
