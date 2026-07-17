@@ -1,0 +1,1 @@
+# empty — pytest will find src modules via package imports

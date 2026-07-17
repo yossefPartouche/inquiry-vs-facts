@@ -1,0 +1,36 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Secrets / API keys ---
+# (you'll use a hosted model to generate B3/B4 — keep that key out of git)
+.env
+*.key
+secrets.json
+
+# --- Model weights (re-downloadable, often huge) ---
+*.gguf
+*.bin
+*.safetensors
+models/
+.ollama/
+
+# --- Big raw data (re-downloadable) ---
+data/raw/
+# HuggingFace datasets cache, if it lands locally
+.cache/
+*.arrow
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
