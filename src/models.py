@@ -6,14 +6,9 @@
 # does not fit in 16GB RAM on Apple Silicon; bitsandbytes 4-bit is CUDA-only
 # and does not work here, so MLX (Apple's native framework) is the fix.
 #
-# TODO: Gemma 4 has native "thinking mode" (visible via <|channel|>thought...
-# tags in raw output). The plan specifies THINKING MODE OFF. Currently it is
-# ON by default. Must find and set the flag/system-prompt convention to
-# disable it before real experiment runs -- otherwise condition A's
-# self-questioning chain overlaps with the model's own internal reasoning,
-# which muddies the ablation (there'd be two reasoning mechanisms instead of
-# one clean, editable Qn:/An: chain). Not yet resolved -- revisit in
-# conditions.py / runner.py before the pilot.
+# Gemma 4 thinking mode is now OFF, per the plan, via enable_thinking=False
+# passed to apply_chat_template(). Confirmed empirically: output no longer
+# contains <|channel|>thought...</channel|> blocks.
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -69,7 +64,7 @@ def _generate_gemma(handle, prompt, max_tokens=512):
     model, tokenizer = handle["model"], handle["tokenizer"]
     messages = [{"role": "user", "content": prompt}]
     formatted = tokenizer.apply_chat_template(
-        messages, add_generation_prompt=True, tokenize=False
+        messages, add_generation_prompt=True, tokenize=False, enable_thinking=False
     )
     sampler = make_sampler(temp=0.0)     # greedy, per the plan
     logits_processors = make_logits_processors(repetition_penalty=1.3)
