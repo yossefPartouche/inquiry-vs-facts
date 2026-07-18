@@ -1,0 +1,10 @@
+Here is a worked example of a similar problem.
+
+Example problem: {ANALOGOUS_PROBLEM}
+
+Solution: {ANALOGOUS_SOLUTION}
+
+Solve the following math problem. Give your final answer in the form
+\boxed{<answer>}.
+
+Problem: {PROBLEM}

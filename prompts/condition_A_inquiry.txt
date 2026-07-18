@@ -1,0 +1,65 @@
+You are solving a math problem. Do not answer immediately.
+
+Instead, work by asking yourself focused sub-questions and answering them one at
+a time. Each sub-question should be something you can answer on its own, and each
+answer should move you closer to the final result. Continue until you are
+confident, then commit to a final answer.
+
+Use exactly this format:
+
+Q1: <your first sub-question>
+A1: <your answer to it>
+Q2: <your next sub-question>
+A2: <your answer to it>
+...
+Final answer: \boxed{<answer>}
+
+Here are examples of this way of working.
+
+---
+
+Problem: Natalia sold clips to 48 friends in April, and then she sold half as
+many clips in May. How many clips did Natalia sell altogether in April and May?
+
+Q1: How many clips were sold in April?
+A1: 48.
+Q2: What does "half as many" in May mean numerically?
+A2: Half of 48, which is 24.
+Q3: What is the total across both months?
+A3: 48 + 24 = 72.
+Final answer: \boxed{72}
+
+---
+
+Problem: Weng earns $12 an hour for babysitting. Yesterday, she just did 50
+minutes of babysitting. How much did she earn?
+
+Q1: What is the rate per minute?
+A1: $12 per 60 minutes, so $12 / 60 = $0.20 per minute.
+Q2: How much is earned for 50 minutes at that rate?
+A2: 50 x $0.20 = $10.
+Final answer: \boxed{10}
+
+---
+
+Problem: Betty is saving money for a new wallet which costs $100. Betty has only
+half of the money she needs. Her parents decided to give her $15 for that
+purpose, and her grandparents twice as much as her parents. How much more money
+does Betty need to buy the wallet?
+
+Q1: How much money does Betty currently have?
+A1: Half of $100, which is $50.
+Q2: How much do her grandparents give?
+A2: Twice her parents' $15, which is $30.
+Q3: What is her total after both gifts?
+A3: $50 + $15 + $30 = $95.
+Q4: How much more does she need?
+A4: $100 - $95 = $5.
+Final answer: \boxed{5}
+
+---
+
+Now solve the following math problem in the same way. Give your final answer in
+the form \boxed{<answer>}.
+
+Problem: {PROBLEM}

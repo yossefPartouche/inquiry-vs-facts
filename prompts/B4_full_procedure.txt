@@ -1,0 +1,8 @@
+Here is the procedure for solving this problem.
+
+{PROCEDURE_STEPS}
+
+Follow this procedure to solve the problem. Give your final answer in the form
+\boxed{<answer>}.
+
+Problem: {PROBLEM}
