@@ -9,6 +9,7 @@ VALID_TYPES = (
     "gcd_lcm",
     "primes_factorization",
     "base_conversion",
+    "modular_arithmetic",
 )
 
 # Checked in this order. First match wins, so order encodes priority
@@ -38,24 +39,15 @@ def _has_any(text, keywords):
 
 
 def tag_problem_type(problem_text):
-    """
-    Returns one of VALID_TYPES. Never returns None/blank -- if nothing
-    matches, falls back to the closest category (divisibility, the
-    broadest bucket) and the caller should flag these for manual review.
-    """
     text = problem_text.lower()
 
     for problem_type, keywords in _RULES:
         if problem_type == "primes_factorization":
-            # modular_exponentiation is checked here, before
-            # primes_factorization, to preserve the original priority order
-            # (base_conversion -> gcd_lcm -> modular_exponentiation ->
-            # primes_factorization -> divisibility).
             if _has_any(text, _MOD_SIGNALS) and _has_any(text, _EXPONENT_SIGNALS):
                 return "modular_exponentiation"
+            if _has_any(text, _MOD_SIGNALS):
+                return "modular_arithmetic"
         if _has_any(text, keywords):
             return problem_type
 
-    # FLAG FOR MANUAL REVIEW: no keyword matched, defaulted to closest
-    # available category rather than inventing a 6th one.
     return "divisibility"
