@@ -1,4 +1,4 @@
-# PYTHONPATH=. python scripts/inspect_selection_filter.py
+# run: PYTHONPATH=. python scripts/inspect_selection_filter.py
 import json
 from collections import defaultdict, Counter
 
