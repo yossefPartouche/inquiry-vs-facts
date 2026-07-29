@@ -4,8 +4,10 @@ Wires the pipeline together: problem set -> build_prompt() -> generate()
 is ever hand-written into the results file (the discipline that saved us
 after the baseline-migration mess).
 
-B3/B4 are skipped (not fatal) until real per-problem content exists --
-build_prompt() raises MissingContentError for them, which we catch here.
+All six conditions (C, A, B1, B2, B3, B4) are now supported end-to-end.
+MissingContentError is still caught defensively -- it will only fire if a
+problem_id genuinely isn't found in the B3/B4 content files, which shouldn't
+happen on the frozen 107-problem set but is kept as a safety net.
 """
 import json
 
@@ -30,10 +32,10 @@ def load_problem_set(path="data/problem_sets/number_theory_L1-2.jsonl"):
 
 
 def run(
-    conditions=("C", "B1"),          # pilot default, per the plan's next step
+    conditions=("C", "A", "B1", "B2", "B3", "B4"),   # full headline set
     model_keys=tuple(MODELS.keys()),
     problems=None,
-    max_tokens=512,
+    max_tokens=1024,
     output_path=None,
 ):
     problems = problems if problems is not None else load_problem_set()
@@ -72,7 +74,7 @@ def run(
 
 
 if __name__ == "__main__":
-    problems = load_problem_set()
-    run(conditions=("C", "B1"), problems=problems, max_tokens=1024,
-        output_path="results/gen_number_theory_pilot.jsonl")
-    print("pilot run complete -> results/gen_number_theory_pilot.jsonl")
+    problems = load_problem_set("data/problem_sets/number_theory_L1-2_filtered.jsonl")
+    run(conditions=("C", "A", "B1", "B2", "B3", "B4"), problems=problems,
+        max_tokens=1024, output_path="results/gen_number_theory_headline.jsonl")
+    print("headline run complete -> results/gen_number_theory_headline.jsonl")
