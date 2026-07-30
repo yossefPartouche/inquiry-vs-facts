@@ -66,3 +66,10 @@
    BELOW            : -
    recovery of (B4 - C) gain:  70.7% [ 43.9,103.2]
 
+
+
+=== Qwen truncation diagnostic ===
+171 unparsed Qwen rows total; 165/171 (96.5%) show hard cutoff (no terminal punctuation),
+consistent with repetitive self-verification loops consuming the token budget before
+a final boxed answer was emitted. This explains most of the parse_ok gap vs Gemma 4 E4B,
+which reliably terminates. Not re-run; documented as a genuine model behavior difference.
