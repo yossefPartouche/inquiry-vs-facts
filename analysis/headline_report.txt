@@ -4,12 +4,12 @@
 
 -- Accuracy (primary: parse failures count as INCORRECT) --
   cond   acc%           95% CI        k/n
-     C  19.1 [ 11.8, 26.4]   21/110 
-    B1  84.5 [ 77.3, 90.9]   93/110 
-    B2  62.7 [ 53.6, 71.8]   69/110 
-    B3  62.7 [ 53.6, 71.8]   69/110 
-    B4  88.2 [ 81.8, 93.6]   97/110 
-     A  83.6 [ 76.4, 90.0]   92/110 
+     C  50.9 [ 41.8, 60.0]   56/110 
+    B1  89.1 [ 82.7, 94.5]   98/110 
+    B2  71.8 [ 63.6, 80.0]   79/110 
+    B3  73.6 [ 65.5, 81.8]   81/110 
+    B4  90.9 [ 85.5, 96.4]  100/110 
+     A  85.5 [ 79.1, 91.8]   94/110 
 
 -- parse_ok rate --
      C 100.0 [100.0,100.0]
@@ -20,17 +20,17 @@
      A 100.0 [100.0,100.0]
 
 -- Paired differences (CI on the DIFFERENCE; * = excludes 0) --
-   A - C       64.5 pp [ 54.5, 74.5] *   McNemar: A-only=75  C-only=4   both=17  neither=14  p=0.0000
-   A - B1      -0.9 pp [ -9.1,  7.3]     McNemar: A-only=11  B1-only=12  both=81  neither=6   p=1.0000
-   A - B2      20.9 pp [ 10.9, 30.9] *   McNemar: A-only=30  B2-only=7   both=62  neither=11  p=0.0002
-   A - B3      20.9 pp [ 10.9, 30.9] *   McNemar: A-only=30  B3-only=7   both=62  neither=11  p=0.0002
-   A - B4      -4.5 pp [-12.7,  3.6]     McNemar: A-only=8   B4-only=13  both=84  neither=5   p=0.3833
+   A - C       34.5 pp [ 24.5, 45.5] *   McNemar: A-only=43  C-only=5   both=51  neither=11  p=0.0000
+   A - B1      -3.6 pp [-10.9,  3.6]     McNemar: A-only=7   B1-only=11  both=87  neither=5   p=0.4807
+   A - B2      13.6 pp [  4.5, 22.7] *   McNemar: A-only=23  B2-only=8   both=71  neither=8   p=0.0107
+   A - B3      11.8 pp [  2.7, 20.9] *   McNemar: A-only=22  B3-only=9   both=72  neither=7   p=0.0294
+   A - B4      -5.5 pp [-13.6,  2.7]     McNemar: A-only=7   B4-only=13  both=87  neither=3   p=0.2632
 
 -- Ladder placement for A --
    ABOVE            : ['C', 'B2', 'B3']
    INDISTINGUISHABLE: ['B1', 'B4']
    BELOW            : -
-   recovery of (B4 - C) gain:  93.4% [ 82.0,105.3]
+   recovery of (B4 - C) gain:  86.4% [ 68.0,106.5]
 
 ==================== qwen3-1.7b ====================
 
@@ -38,38 +38,31 @@
 
 -- Accuracy (primary: parse failures count as INCORRECT) --
   cond   acc%           95% CI        k/n
-     C  23.6 [ 15.5, 31.8]   26/110 
-    B1  58.2 [ 49.1, 67.3]   64/110 
-    B2  36.4 [ 27.3, 45.5]   40/110 
-    B3  45.5 [ 36.4, 54.5]   50/110 
-    B4  60.9 [ 51.8, 70.0]   67/110 
-     A  50.0 [ 40.9, 59.1]   55/110 
+     C  36.4 [ 27.3, 45.5]   40/110 
+    B1  62.7 [ 53.6, 71.8]   69/110 
+    B2  46.4 [ 37.3, 55.5]   51/110 
+    B3  58.2 [ 49.1, 67.3]   64/110 
+    B4  63.6 [ 54.5, 72.7]   70/110 
+     A  52.7 [ 43.6, 61.8]   58/110 
 
 -- parse_ok rate --
-     C  69.1 [ 60.0, 77.3]
-    B1  83.6 [ 76.4, 90.0]
-    B2  62.7 [ 53.6, 71.8]
-    B3  65.5 [ 56.4, 74.5]
-    B4  89.1 [ 82.7, 94.5]
-     A  74.5 [ 66.4, 82.7]
+     C  76.4 [ 68.2, 83.6]
+    B1  85.5 [ 79.1, 91.8]
+    B2  70.0 [ 61.8, 78.2]
+    B3  77.3 [ 69.1, 84.5]
+    B4  90.9 [ 85.5, 95.5]
+     A  76.4 [ 68.2, 83.6]
 
 -- Paired differences (CI on the DIFFERENCE; * = excludes 0) --
-   A - C       26.4 pp [ 15.5, 37.3] *   McNemar: A-only=37  C-only=8   both=18  neither=47  p=0.0000
-   A - B1      -8.2 pp [-20.9,  4.5]     McNemar: A-only=20  B1-only=29  both=35  neither=26  p=0.2529
-   A - B2      13.6 pp [  2.7, 24.5] *   McNemar: A-only=27  B2-only=12  both=28  neither=43  p=0.0237
-   A - B3       4.5 pp [ -7.3, 15.5]     McNemar: A-only=22  B3-only=17  both=33  neither=38  p=0.5224
-   A - B4     -10.9 pp [-22.7,  0.9]     McNemar: A-only=17  B4-only=29  both=38  neither=26  p=0.1038
+   A - C       16.4 pp [  5.5, 27.3] *   McNemar: A-only=29  C-only=11  both=29  neither=41  p=0.0064
+   A - B1     -10.0 pp [-22.7,  2.7]     McNemar: A-only=20  B1-only=31  both=38  neither=21  p=0.1608
+   A - B2       6.4 pp [ -5.5, 19.1]     McNemar: A-only=28  B2-only=21  both=30  neither=31  p=0.3916
+   A - B3      -5.5 pp [-17.3,  6.4]     McNemar: A-only=19  B3-only=25  both=39  neither=27  p=0.4514
+   A - B4     -10.9 pp [-23.6,  1.8]     McNemar: A-only=19  B4-only=31  both=39  neither=21  p=0.1189
 
 -- Ladder placement for A --
-   ABOVE            : ['C', 'B2']
-   INDISTINGUISHABLE: ['B1', 'B3', 'B4']
+   ABOVE            : ['C']
+   INDISTINGUISHABLE: ['B1', 'B2', 'B3', 'B4']
    BELOW            : -
-   recovery of (B4 - C) gain:  70.7% [ 43.9,103.2]
+   recovery of (B4 - C) gain:  60.0% [ 23.1,107.4]
 
-
-
-=== Qwen truncation diagnostic ===
-171 unparsed Qwen rows total; 165/171 (96.5%) show hard cutoff (no terminal punctuation),
-consistent with repetitive self-verification loops consuming the token budget before
-a final boxed answer was emitted. This explains most of the parse_ok gap vs Gemma 4 E4B,
-which reliably terminates. Not re-run; documented as a genuine model behavior difference.
