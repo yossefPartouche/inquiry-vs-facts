@@ -9,14 +9,14 @@ from collections import defaultdict
 
 from src.runner import run, load_problem_set
 
-RESULTS_PATH = "results/gen_number_theory_pilot.jsonl"
-CONDITIONS = ("C", "B1")
+RESULTS_PATH = "results/gen_number_theory_headline.jsonl"
+CONDITIONS = ("C", "A", "B1", "B2", "B3", "B4")
 MODEL = "qwen3-1.7b"
 
 rows = [json.loads(l) for l in open(RESULTS_PATH, encoding="utf-8")]
 present = {(r["problem_id"], r["condition"]) for r in rows if r["model"] == MODEL}
 
-all_problems = load_problem_set()
+all_problems = load_problem_set("data/problem_sets/number_theory_L1-2_filtered.jsonl")
 missing_problems = [
     p for p in all_problems
     if any((p["problem_id"], c) not in present for c in CONDITIONS)
