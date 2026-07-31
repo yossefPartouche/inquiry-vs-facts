@@ -66,3 +66,13 @@
    BELOW            : -
    recovery of (B4 - C) gain:  60.0% [ 23.1,107.4]
 
+
+
+=== Causal ablation: A_corrupt (last-step corruption), Gemma ===
+A: 94/94 correct (by construction, ablation-eligible pool)
+A_corrupt: 70/94 correct
+Paired difference: 25.5pp [17.0, 34.0], excludes zero
+McNemar: 24 flips A-correct->corrupt-wrong, 0 flips the other way, p=1.19e-7
+Interpretation: the self-questioning chain is causally load-bearing, not decorative.
+36/94 rows required manual grading review due to free-form answer phrasing
+the automated fallback chain did not cover; documented as a methodology note.
