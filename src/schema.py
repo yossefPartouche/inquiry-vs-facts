@@ -38,7 +38,7 @@ MAIN_CONDITIONS = set(LADDER_CONDITIONS) | {INQUIRY_CONDITION}
 # the subset of problems that were ablated, and are analysed as a SEPARATE
 # paired comparison (A vs A_corrupt, A vs A_swap) using the same difference-CI
 # machinery -- never placed on the ladder.
-ABLATION_CONDITIONS = ("A_corrupt", "A_swap")
+ABLATION_CONDITIONS = ("A_corrupt", "A_corrupt_all", "A_swap")
 
 CONDITIONS = MAIN_CONDITIONS | set(ABLATION_CONDITIONS)
 
