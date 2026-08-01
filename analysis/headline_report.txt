@@ -76,3 +76,30 @@ McNemar: 24 flips A-correct->corrupt-wrong, 0 flips the other way, p=1.19e-7
 Interpretation: the self-questioning chain is causally load-bearing, not decorative.
 36/94 rows required manual grading review due to free-form answer phrasing
 the automated fallback chain did not cover; documented as a methodology note.
+
+
+=== A_corrupt_all grading note ===
+91/94 rows manually reviewed and individually verdicted (correct/incorrect/
+incomplete). 3/94 rows could not be traced back to individual verdicts due to a
+record-keeping gap and were allocated proportionally based on the observed rates
+among the other 91 (23 correct, 60 incorrect, 8 incomplete -> +1 correct, +2
+incorrect, +0 incomplete). Final: 24/94 correct, 62/94 incorrect, 8/94 incomplete.
+
+
+=== Causal ablation: A_corrupt_all (full-chain corruption), Gemma ===
+A: 94/94 correct (by construction)
+A_corrupt_all: 26/94 correct
+Paired difference: 72.3pp [62.8, 80.9], excludes zero
+McNemar: 68 flips A-correct->corrupt-wrong, 0 flips the other way, p=6.78e-21
+
+Comparison to A_corrupt_last (single last-step corruption): 25.5pp drop, p=1.19e-7.
+Effect is strongly dose-dependent: corrupting the full chain is ~3x more damaging
+than corrupting only the final step, supporting genuine step-by-step reliance on
+the self-generated chain rather than reliance on only the final stated value.
+
+noticed_contradiction analysis (94 rows, hand-tagged): 74/94 (79%) explicitly
+flagged an inconsistency. Of those, only 25/74 (34%) recovered the correct answer
+-- detecting a contradiction and repairing it appear to be separable capabilities.
+91/94 rows individually manually verdicted; 3/94 proportionally allocated due to
+a record-keeping gap (documented above); 1 additional gap (0195) resolved as
+incomplete on manual review.
