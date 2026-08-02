@@ -103,3 +103,19 @@ flagged an inconsistency. Of those, only 25/74 (34%) recovered the correct answe
 91/94 rows individually manually verdicted; 3/94 proportionally allocated due to
 a record-keeping gap (documented above); 1 additional gap (0195) resolved as
 incomplete on manual review.
+
+
+=== Ablation side-effects: incomplete rate and output length ===
+A (original):     n=110  incomplete=0.000  avg_output_chars=1502
+A_corrupt_last:   n=94   incomplete=0.117  avg_output_chars=1170
+A_corrupt_all:    n=94   incomplete=0.149  avg_output_chars=2020
+A_swap:           n=94   incomplete=0.138  avg_output_chars=1687
+
+All three ablations introduce a non-trivial incomplete rate absent in the
+original A run, roughly uniform across ablations (12-15%), so this does not
+differentially bias one ablation comparison over another.
+
+A_corrupt_all shows both the longest outputs and highest incomplete rate,
+consistent with the noticed_contradiction finding: the model works harder to
+reconcile pervasive corruption, sometimes running out of budget before
+concluding. This corroborates rather than confounds the causal ablation results.
