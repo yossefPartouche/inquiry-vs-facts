@@ -119,3 +119,20 @@ A_corrupt_all shows both the longest outputs and highest incomplete rate,
 consistent with the noticed_contradiction finding: the model works harder to
 reconcile pervasive corruption, sometimes running out of budget before
 concluding. This corroborates rather than confounds the causal ablation results.
+
+
+=== Causal ablation: A_swap (question-chain replacement), Gemma ===
+A: 94/94 correct (by construction)
+A_swap: 76/94 correct
+Paired difference: 19.1pp [11.7, 26.6], excludes zero
+McNemar: 18 flips A-correct->swap-wrong, 0 flips the other way, p=7.63e-06
+
+Three-ablation summary (Gemma):
+  A_corrupt_last (1 wrong value, relevant chain):    25.5pp drop, p=1.19e-07
+  A_corrupt_all  (all wrong values, relevant chain): 72.3pp drop, p=6.78e-21
+  A_swap         (irrelevant chain entirely):        19.1pp drop, p=7.63e-06
+
+Interpretation: the ordering (corrupt_all > corrupt_last > swap) rules out a
+generic-disruption explanation. Irrelevant content causes the LEAST damage,
+meaning the model specifically relies on RELEVANT content in its own
+self-generated chain, not merely any deviation from expected structure.
