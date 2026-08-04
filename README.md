@@ -16,7 +16,7 @@ Six conditions are compared on a frozen pool of 110 MATH Number Theory
   withheld (B4, the ceiling)
 
 The headline question is not "does A beat B?" but *where on the ladder does A fall*. On Gemma, condition A is statistically indistinguishable
-from B1 and B4, and significantly beats C, B2, and B3 — recovering 86.4% of the total achievable gain.
+from B1 and B4, and significantly beats C, B2, and B3 recovering 86.4% of the total achievable gain.
 
 Three causal ablations then test whether A's self-questioning chain is actually used: corrupting one value, corrupting the whole chain, and swapping in an irrelevant chain entirely. All three show large, statistically significant accuracy drops, with a dose-response pattern (swap < corrupt-one-step < corrupt-everything) that rules out a generic "any disruption hurts" explanation.
 
