@@ -3,6 +3,20 @@ import json
 import re
 import random
 
+DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+def corrupt_day_of_week(text, seed=None):
+    """Finds a day-of-week name in the text and replaces it with a
+    different, plausible day (not the same one, chosen deterministically
+    via seed for reproducibility)."""
+    rng = random.Random(seed)
+    for day in DAYS:
+        if day in text:
+            other_days = [d for d in DAYS if d != day]
+            replacement = rng.choice(other_days)
+            return text.replace(day, replacement)
+    return None
+
 def corrupt_numeric_value(original_text, seed=None):
     """
     Given a sub_answer string, find the LAST standalone number/fraction in it
@@ -11,8 +25,8 @@ def corrupt_numeric_value(original_text, seed=None):
     """
     rng = random.Random(seed)
 
-    # find standalone numbers (ints, decimals, simple fractions like a/b)
-    matches = list(re.finditer(r'(?<![\w.])(-?\d+(?:\.\d+)?(?:/\d+)?)(?![\w.])', original_text))
+    # find standalone numbers (ints, decimals, simple fractions like a/b)                              
+    matches = list(re.finditer(r'(?<![\w.])(-?\d+(?:\.\d+)?(?:/\d+)?)(?!\d)', original_text))
     if not matches:
         return None
 
@@ -46,9 +60,12 @@ def build_corrupt_last_prompt(sub_steps, seed=None):
     """
     steps = [dict(s) for s in sub_steps]  # copy, don't mutate original
     last = steps[-1]
+
     corrupted_answer = corrupt_numeric_value(last["sub_answer"], seed=seed)
     if corrupted_answer is None:
-        return None  # couldn't find a number to corrupt in the last step
+        corrupted_answer = corrupt_day_of_week(last["sub_answer"], seed=seed)
+    if corrupted_answer is None:
+        return None
 
     last["sub_answer"] = corrupted_answer
 
