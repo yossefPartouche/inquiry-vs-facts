@@ -136,3 +136,13 @@ Interpretation: the ordering (corrupt_all > corrupt_last > swap) rules out a
 generic-disruption explanation. Irrelevant content causes the LEAST damage,
 meaning the model specifically relies on RELEVANT content in its own
 self-generated chain, not merely any deviation from expected structure.
+
+
+=== Qwen truncation diagnostic ===
+171 unparsed Qwen rows total; 165/171 (96.5%) show hard cutoff (no terminal
+punctuation), consistent with repetitive self-verification loops consuming
+the token budget before a final boxed answer was emitted. This explains most
+of the parse_ok gap vs Gemma 4 E4B, which reliably terminates. Not re-run;
+documented as a genuine model behavior difference. Also independently noted
+in Qwen3 official documentation, which recommends presence_penalty=1.5 to
+mitigate endless repetition.
