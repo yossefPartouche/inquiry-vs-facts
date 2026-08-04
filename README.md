@@ -1,61 +1,81 @@
-## Grader validation (Week 1 gate)
+# Does Self-Questioning Transfer Across Domains, and Is It Causally Used?
 
-**Goal.** `src/grader.py` is the instrument every number in this project is
-measured with. Its 32 golden tests prove it is self-consistent, not that it is
-*correct* — for that it has to agree with an external, independently published
-number. This run is that check.
+Testing whether a self-questioning procedure, elicited via demonstration
+on GSM8K, transfers to raise accuracy on MATH Number Theory — and whether
+it is causally used by the model or merely narrated alongside an
+independently-derived answer.
 
-**Reference.** Qwen3-1.7B-Base, GSM8K = **75.44** (Qwen3 Technical Report,
-arXiv:2505.09388, Table 8). Protocol per §3.3: 4-shot, chain-of-thought. The
-base model was chosen deliberately: 75.44 is a base-model number, and a base
-model is a pure completion engine, so nothing (chat template, system prompt,
-thinking mode) sits between our prompt and the result.
+## Project summary
 
-**Prompt.** The Qwen3 report does not publish its prompt, stating only "widely-used
-evaluation settings". We used the canonical 4-shot GSM8K CoT exemplars from Wei et
-al. (2022), verbatim. Greedy decoding (`do_sample=False`), 512 max new tokens,
-200 problems from the test split.
+Six conditions are compared on a frozen pool of 110 MATH Number Theory
+(Levels 1-2) problems, on two models (Gemma 4 E4B, Qwen3-1.7B):
 
-**Two deviations, both disclosed:**
+- **C** — zero-shot
+- **A** — self-questioning (elicited via out-of-domain GSM8K demonstrations)
+- **B1-B4** — a graduated ladder of injected in-domain facts, from a
+  single bare fact (B1) to a full worked procedure with the answer
+  withheld (B4, the ceiling)
 
-1. *Exemplar format.* We rewrote the exemplars' closing line from
-   `The answer is 6.` to `The answer is \boxed{6}.`, since our grader keys on
-   `\boxed{}`.
-2. *Answer-extraction adapter.* The exemplar rewrite did not take: the model
-   emitted `The answer is N.` anyway, in 19 of the first 20 outputs. The Wei et
-   al. prompt is one of the most-replicated text blocks in the pretraining corpus,
-   and four counter-demonstrations do not outweigh that prior — a base model has
-   no instruction-following with which to override it. We therefore rewrite
-   `The answer is N.` into `\boxed{N}` at grade time, in the baseline script only.
-   `src/grader.py` is untouched. This is the same "flexible-extract" step
-   `lm-evaluation-harness` applies, and is throwaway: the experiment's models are
-   instruction-tuned and follow the `\boxed{}` instruction directly.
+The headline question is not "does A beat B?" but *where on the ladder
+does A fall*. On Gemma, condition A is statistically indistinguishable
+from B1 and B4, and significantly beats C, B2, and B3 — recovering 86.4%
+of the total achievable gain.
 
-**Why we scaled from 20 to 200.** At n=20 the 95% CI is roughly ±20 points — wide
-enough that our 0.70 and the target 0.7544 were indistinguishable, but also wide
-enough to hide a real defect. n=200 narrows it to about ±6.6, which is tight
-enough for the comparison to mean something.
+Three causal ablations then test whether A's self-questioning chain is
+actually used: corrupting one value, corrupting the whole chain, and
+swapping in an irrelevant chain entirely. All three show large,
+statistically significant accuracy drops, with a dose-response pattern
+(swap < corrupt-one-step < corrupt-everything) that rules out a generic
+"any disruption hurts" explanation.
 
-**Result.**
+Full results and discussion: see `paper/` (final report) and
+`analysis/headline_report.txt` (raw numbers, source of truth for every
+statistic in the paper).
 
-| metric | value |
-|---|---|
-| accuracy (all 200) | **0.645** (129/200) |
-| `parse_ok` rate | **0.865** (173/200) |
-| accuracy over parseable outputs | **0.746** (129/173) |
-| target | 0.7544 |
+## Repository structure
 
-**Reading.** Of the outputs the model actually completed, the grader scores
-**74.6%** the published number to within noise. The 11-point gap in the headline
-figure is entirely the 27 completions (13.5%) that hit the token cap mid-reasoning
-and never emitted a final answer. Those are model/truncation failures, not grading
-failures: no answer was produced, so none could be graded. **The gate passes.**
+- `src/` — core pipeline: schema, grader, generation backend, prompt
+  construction, statistics
+- `prompts/` — condition templates (C, A, B1-B4) and the fact library
+- `data/` — problem sets, frozen filtered pool, per-problem B3/B4 content,
+  ablation content
+- `results/` — all generated model outputs (pilot, headline, three
+  ablations), graded
+- `scripts/` — reusable utilities (grading, verification, backfilling) and
+  `scripts/archive/` for one-off diagnostic scripts kept for the audit
+  trail
+- `analysis/` — `headline_report.txt`, the canonical, append-only record
+  of every statistic reported in the paper
+- `docs/` — design notes, including the Week 1 grader-validation process
+  (`grader_validation_notes.md`)
+- `tests/` — pytest suite for schema, grader, and stats
 
-**Implication for the experiment (Track X, please read).** `parse_ok` is not
-bookkeeping it is a confound. Here it moved the headline accuracy by 11 points on
-its own. Condition A (self-questioning) produces longer chains than condition C, and
-is therefore structurally more likely to truncate or lose its final box. If A's
-unparseable rate is 8% and C's is 1%, that difference alone will show up as an
-accuracy difference and be mistaken for an effect. `parse_ok` must be a column in
-the results schema (it is not in the plan) and must be reported per
-condition.
+## Reproducing the headline result
+
+```bash
+PYTHONPATH=. python -m src.runner          # generate all six conditions
+PYTHONPATH=. python -m src.grading_pipeline results/gen_number_theory_headline.jsonl
+PYTHONPATH=. python -c "
+from src.stats import load_rows, report
+rows = load_rows('results/gen_number_theory_headline.jsonl')
+for model in ['gemma4-e4b', 'qwen3-1.7b']:
+    report(rows, model=model)
+"
+```
+
+## Reproducing the ablations
+
+```bash
+PYTHONPATH=. python -m scripts.run_ablation_corrupt_last
+PYTHONPATH=. python -m scripts.run_ablation_corrupt_all
+PYTHONPATH=. python -m scripts.run_ablation_swap
+```
+
+Each writes to its own `results/gen_number_theory_ablation*.jsonl`, graded
+via the same `src.grading_pipeline` module.
+
+## Tests
+
+```bash
+python -m pytest tests/ -v
+```
