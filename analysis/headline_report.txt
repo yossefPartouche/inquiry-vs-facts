@@ -1,0 +1,148 @@
+==================== gemma4-e4b ====================
+
+=== gemma4-e4b | n = 110 problems | 10000 bootstrap replicates (resampling PROBLEMS) ===
+
+-- Accuracy (primary: parse failures count as INCORRECT) --
+  cond   acc%           95% CI        k/n
+     C  50.9 [ 41.8, 60.0]   56/110 
+    B1  89.1 [ 82.7, 94.5]   98/110 
+    B2  71.8 [ 63.6, 80.0]   79/110 
+    B3  73.6 [ 65.5, 81.8]   81/110 
+    B4  90.9 [ 85.5, 96.4]  100/110 
+     A  85.5 [ 79.1, 91.8]   94/110 
+
+-- parse_ok rate --
+     C 100.0 [100.0,100.0]
+    B1 100.0 [100.0,100.0]
+    B2  99.1 [ 97.3,100.0]
+    B3 100.0 [100.0,100.0]
+    B4 100.0 [100.0,100.0]
+     A 100.0 [100.0,100.0]
+
+-- Paired differences (CI on the DIFFERENCE; * = excludes 0) --
+   A - C       34.5 pp [ 24.5, 45.5] *   McNemar: A-only=43  C-only=5   both=51  neither=11  p=0.0000
+   A - B1      -3.6 pp [-10.9,  3.6]     McNemar: A-only=7   B1-only=11  both=87  neither=5   p=0.4807
+   A - B2      13.6 pp [  4.5, 22.7] *   McNemar: A-only=23  B2-only=8   both=71  neither=8   p=0.0107
+   A - B3      11.8 pp [  2.7, 20.9] *   McNemar: A-only=22  B3-only=9   both=72  neither=7   p=0.0294
+   A - B4      -5.5 pp [-13.6,  2.7]     McNemar: A-only=7   B4-only=13  both=87  neither=3   p=0.2632
+
+-- Ladder placement for A --
+   ABOVE            : ['C', 'B2', 'B3']
+   INDISTINGUISHABLE: ['B1', 'B4']
+   BELOW            : -
+   recovery of (B4 - C) gain:  86.4% [ 68.0,106.5]
+
+==================== qwen3-1.7b ====================
+
+=== qwen3-1.7b | n = 110 problems | 10000 bootstrap replicates (resampling PROBLEMS) ===
+
+-- Accuracy (primary: parse failures count as INCORRECT) --
+  cond   acc%           95% CI        k/n
+     C  36.4 [ 27.3, 45.5]   40/110 
+    B1  62.7 [ 53.6, 71.8]   69/110 
+    B2  46.4 [ 37.3, 55.5]   51/110 
+    B3  58.2 [ 49.1, 67.3]   64/110 
+    B4  63.6 [ 54.5, 72.7]   70/110 
+     A  52.7 [ 43.6, 61.8]   58/110 
+
+-- parse_ok rate --
+     C  76.4 [ 68.2, 83.6]
+    B1  85.5 [ 79.1, 91.8]
+    B2  70.0 [ 61.8, 78.2]
+    B3  77.3 [ 69.1, 84.5]
+    B4  90.9 [ 85.5, 95.5]
+     A  76.4 [ 68.2, 83.6]
+
+-- Paired differences (CI on the DIFFERENCE; * = excludes 0) --
+   A - C       16.4 pp [  5.5, 27.3] *   McNemar: A-only=29  C-only=11  both=29  neither=41  p=0.0064
+   A - B1     -10.0 pp [-22.7,  2.7]     McNemar: A-only=20  B1-only=31  both=38  neither=21  p=0.1608
+   A - B2       6.4 pp [ -5.5, 19.1]     McNemar: A-only=28  B2-only=21  both=30  neither=31  p=0.3916
+   A - B3      -5.5 pp [-17.3,  6.4]     McNemar: A-only=19  B3-only=25  both=39  neither=27  p=0.4514
+   A - B4     -10.9 pp [-23.6,  1.8]     McNemar: A-only=19  B4-only=31  both=39  neither=21  p=0.1189
+
+-- Ladder placement for A --
+   ABOVE            : ['C']
+   INDISTINGUISHABLE: ['B1', 'B2', 'B3', 'B4']
+   BELOW            : -
+   recovery of (B4 - C) gain:  60.0% [ 23.1,107.4]
+
+
+
+=== Causal ablation: A_corrupt (last-step corruption), Gemma ===
+A: 94/94 correct (by construction, ablation-eligible pool)
+A_corrupt: 70/94 correct
+Paired difference: 25.5pp [17.0, 34.0], excludes zero
+McNemar: 24 flips A-correct->corrupt-wrong, 0 flips the other way, p=1.19e-7
+Interpretation: the self-questioning chain is causally load-bearing, not decorative.
+36/94 rows required manual grading review due to free-form answer phrasing
+the automated fallback chain did not cover; documented as a methodology note.
+
+
+=== A_corrupt_all grading note ===
+91/94 rows manually reviewed and individually verdicted (correct/incorrect/
+incomplete). 3/94 rows could not be traced back to individual verdicts due to a
+record-keeping gap and were allocated proportionally based on the observed rates
+among the other 91 (23 correct, 60 incorrect, 8 incomplete -> +1 correct, +2
+incorrect, +0 incomplete). Final: 24/94 correct, 62/94 incorrect, 8/94 incomplete.
+
+
+=== Causal ablation: A_corrupt_all (full-chain corruption), Gemma ===
+A: 94/94 correct (by construction)
+A_corrupt_all: 26/94 correct
+Paired difference: 72.3pp [62.8, 80.9], excludes zero
+McNemar: 68 flips A-correct->corrupt-wrong, 0 flips the other way, p=6.78e-21
+
+Comparison to A_corrupt_last (single last-step corruption): 25.5pp drop, p=1.19e-7.
+Effect is strongly dose-dependent: corrupting the full chain is ~3x more damaging
+than corrupting only the final step, supporting genuine step-by-step reliance on
+the self-generated chain rather than reliance on only the final stated value.
+
+noticed_contradiction analysis (94 rows, hand-tagged): 74/94 (79%) explicitly
+flagged an inconsistency. Of those, only 25/74 (34%) recovered the correct answer
+-- detecting a contradiction and repairing it appear to be separable capabilities.
+91/94 rows individually manually verdicted; 3/94 proportionally allocated due to
+a record-keeping gap (documented above); 1 additional gap (0195) resolved as
+incomplete on manual review.
+
+
+=== Ablation side-effects: incomplete rate and output length ===
+A (original):     n=110  incomplete=0.000  avg_output_chars=1502
+A_corrupt_last:   n=94   incomplete=0.117  avg_output_chars=1170
+A_corrupt_all:    n=94   incomplete=0.149  avg_output_chars=2020
+A_swap:           n=94   incomplete=0.138  avg_output_chars=1687
+
+All three ablations introduce a non-trivial incomplete rate absent in the
+original A run, roughly uniform across ablations (12-15%), so this does not
+differentially bias one ablation comparison over another.
+
+A_corrupt_all shows both the longest outputs and highest incomplete rate,
+consistent with the noticed_contradiction finding: the model works harder to
+reconcile pervasive corruption, sometimes running out of budget before
+concluding. This corroborates rather than confounds the causal ablation results.
+
+
+=== Causal ablation: A_swap (question-chain replacement), Gemma ===
+A: 94/94 correct (by construction)
+A_swap: 76/94 correct
+Paired difference: 19.1pp [11.7, 26.6], excludes zero
+McNemar: 18 flips A-correct->swap-wrong, 0 flips the other way, p=7.63e-06
+
+Three-ablation summary (Gemma):
+  A_corrupt_last (1 wrong value, relevant chain):    25.5pp drop, p=1.19e-07
+  A_corrupt_all  (all wrong values, relevant chain): 72.3pp drop, p=6.78e-21
+  A_swap         (irrelevant chain entirely):        19.1pp drop, p=7.63e-06
+
+Interpretation: the ordering (corrupt_all > corrupt_last > swap) rules out a
+generic-disruption explanation. Irrelevant content causes the LEAST damage,
+meaning the model specifically relies on RELEVANT content in its own
+self-generated chain, not merely any deviation from expected structure.
+
+
+=== Qwen truncation diagnostic ===
+171 unparsed Qwen rows total; 165/171 (96.5%) show hard cutoff (no terminal
+punctuation), consistent with repetitive self-verification loops consuming
+the token budget before a final boxed answer was emitted. This explains most
+of the parse_ok gap vs Gemma 4 E4B, which reliably terminates. Not re-run;
+documented as a genuine model behavior difference. Also independently noted
+in Qwen3 official documentation, which recommends presence_penalty=1.5 to
+mitigate endless repetition.

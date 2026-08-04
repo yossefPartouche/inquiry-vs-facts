@@ -1,0 +1,52 @@
+{
+  "modular_arithmetic": {
+    "b1_facts": ["a is congruent to b (mod n) means that n divides a - b; equivalently, a and b leave the same remainder when divided by n."],
+    "b2_facts": [
+      "a is congruent to b (mod n) means that n divides a - b; equivalently, a and b leave the same remainder when divided by n.",
+      "If a is congruent to b (mod n) and c is congruent to d (mod n), then a + c is congruent to b + d (mod n).",
+      "If a is congruent to b (mod n) and c is congruent to d (mod n), then a x c is congruent to b x d (mod n)."
+    ]
+  },
+  "modular_exponentiation": {
+    "b1_facts": ["Fermat's Little Theorem: if p is prime and a is not divisible by p, then a^(p-1) is congruent to 1 (mod p)."],
+    "b2_facts": [
+      "Fermat's Little Theorem: if p is prime and a is not divisible by p, then a^(p-1) is congruent to 1 (mod p).",
+      "Exponent reduction: if a^k is congruent to 1 (mod n), then a^m is congruent to a^(m mod k) (mod n).",
+      "If a is congruent to b (mod n), then a^k is congruent to b^k (mod n) for any positive integer k.",
+      "The remainders of the successive powers a^1, a^2, a^3, ... (mod n) eventually repeat in a cycle."
+    ]
+  },
+  "divisibility": {
+    "b1_facts": ["A number is divisible by 3 if and only if its digit sum is divisible by 3."],
+    "b2_facts": [
+      "A number is divisible by 3 if and only if its digit sum is divisible by 3.",
+      "A number is divisible by 9 if and only if its digit sum is divisible by 9.",
+      "A number is divisible by 11 if and only if the alternating sum of its digits is divisible by 11.",
+      "A number is divisible by 4 if and only if the number formed by its last two digits is divisible by 4.",
+      "A number is divisible by 6 if and only if it is divisible by both 2 and 3."
+    ]
+  },
+  "gcd_lcm": {
+    "b1_facts": ["Euclidean algorithm: gcd(a,b) = gcd(b, a mod b)."],
+    "b2_facts": [
+      "Euclidean algorithm: gcd(a,b) = gcd(b, a mod b).",
+      "For positive integers a and b, gcd(a,b) x lcm(a,b) = a x b.",
+      "In terms of prime factorizations, the gcd of two numbers takes the minimum exponent of each prime, and the lcm takes the maximum exponent of each prime."
+    ]
+  },
+  "primes_factorization": {
+    "b1_facts": ["Fundamental Theorem of Arithmetic: every integer greater than 1 factors uniquely into primes."],
+    "b2_facts": [
+      "Fundamental Theorem of Arithmetic: every integer greater than 1 factors uniquely into primes.",
+      "Divisor-count formula: if n = p1^a1 * p2^a2 * ... * pk^ak, then n has (a1+1)(a2+1)...(ak+1) positive divisors.",
+      "1 is not a prime number, and 2 is the only even prime number."
+    ]
+  },
+  "base_conversion": {
+    "b1_facts": ["To convert a number to base b, repeatedly divide by b and read the remainders in reverse order."],
+    "b2_facts": [
+      "To convert a number to base b, repeatedly divide by b and read the remainders in reverse order.",
+      "Positional value: a digit d at position i (counting from 0, rightmost) contributes d * b^i to the value."
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+Solve the following math problem. Give your final answer in the form
+\boxed{<answer>}.
+
+Problem: {PROBLEM}

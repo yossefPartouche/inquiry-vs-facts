@@ -1,0 +1,8 @@
+Here is a relevant fact.
+
+{FACTS}
+
+Solve the following math problem. Give your final answer in the form
+\boxed{<answer>}.
+
+Problem: {PROBLEM}
